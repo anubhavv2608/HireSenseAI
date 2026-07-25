@@ -111,7 +111,7 @@ export class AuthService {
     await this.repository.updateRefreshToken(user._id.toString(), tokens.refreshToken);
     await this.repository.updateLastLogin(user._id.toString());
 
-    const { subject, html } = welcomeEmail(user.username);
+    const { subject, html } = welcomeEmail(user.username, `${config.cors.origin}/dashboard`);
     this.emailService.sendInBackground({ to: user.email, subject, html });
 
     return { user, tokens };
@@ -262,7 +262,7 @@ export class AuthService {
         authProvider: 'google',
       });
 
-      const { subject, html } = welcomeEmail(user.username);
+      const { subject, html } = welcomeEmail(user.username, `${config.cors.origin}/dashboard`);
       this.emailService.sendInBackground({ to: user.email, subject, html });
     } else if (!user) {
       throw new NotFoundError(AUTH_MESSAGES.GOOGLE_ACCOUNT_NOT_FOUND);
