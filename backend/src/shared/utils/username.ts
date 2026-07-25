@@ -26,6 +26,17 @@ export function slugifyToUsernameBase(seed: string): string {
   return padded || 'user';
 }
 
+/** Turns a generated username like "anubhav_kumar2" into a placeholder display
+ * name ("Anubhav Kumar2") for users who haven't set a real name yet — signup
+ * never collects one directly. */
+export function humanizeUsername(username: string): string {
+  return username
+    .split('_')
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 const MAX_GENERATION_ATTEMPTS = 25;
 
 /** Appends a numeric suffix to `base` until `isTaken` reports the candidate is

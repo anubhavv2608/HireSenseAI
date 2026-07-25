@@ -11,7 +11,8 @@ import {
   UnauthorizedError,
 } from '../../shared/errors/ApiError';
 import { EmailService, welcomeEmail, passwordResetEmail } from '../../shared/email';
-import { generateUniqueUsername, isValidUsername, slugifyToUsernameBase } from '../../shared/utils/username';
+import { generateUniqueUsername, humanizeUsername, isValidUsername, slugifyToUsernameBase } from '../../shared/utils/username';
+import { ProfileRepository } from '../profile/profile.repository';
 import { AuthRepository } from './auth.repository';
 import { AUTH_CONSTANTS, AUTH_MESSAGES } from './auth.constants';
 import { AuthTokens, TokenPayload, RegisterDTO, LoginDTO, GoogleAuthMode } from './auth.types';
@@ -67,12 +68,14 @@ export class GoogleOAuthService {
 
 export class AuthService {
   private repository: AuthRepository;
+  private profileRepository: ProfileRepository;
   private tokenService: TokenService;
   private googleOAuthService: GoogleOAuthService;
   private emailService: EmailService;
 
   constructor() {
     this.repository = new AuthRepository();
+    this.profileRepository = new ProfileRepository();
     this.tokenService = new TokenService();
     this.googleOAuthService = new GoogleOAuthService();
     this.emailService = new EmailService();
@@ -110,6 +113,10 @@ export class AuthService {
 
     await this.repository.updateRefreshToken(user._id.toString(), tokens.refreshToken);
     await this.repository.updateLastLogin(user._id.toString());
+    await this.profileRepository.createProfile(user._id.toString(), {
+      fullName: humanizeUsername(username),
+      profileCompleted: false,
+    });
 
     const { subject, html } = welcomeEmail(user.username, `${config.cors.origin}/dashboard`);
     this.emailService.sendInBackground({ to: user.email, subject, html });
@@ -260,6 +267,10 @@ export class AuthService {
         email,
         username,
         authProvider: 'google',
+      });
+      await this.profileRepository.createProfile(user._id.toString(), {
+        fullName: humanizeUsername(username),
+        profileCompleted: false,
       });
 
       const { subject, html } = welcomeEmail(user.username, `${config.cors.origin}/dashboard`);

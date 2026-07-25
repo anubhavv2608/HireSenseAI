@@ -11,7 +11,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "seed:admin": "tsx src/scripts/seedAdmin.ts",
     "migrate:profile-urls": "tsx src/scripts/migrateProfileUrlFields.ts",
-    "migrate:usernames": "tsx src/scripts/backfillUsernames.ts"
+    "migrate:usernames": "tsx src/scripts/backfillUsernames.ts",
+    "migrate:missing-profiles": "tsx src/scripts/backfillMissingProfiles.ts"
   },
   "keywords": [],
   "author": "",
