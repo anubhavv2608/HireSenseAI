@@ -100,16 +100,16 @@ export default function EditProfilePage() {
 
     const payload = {
       fullName: form.fullName.trim(),
-      college: form.college.trim() || undefined,
+      college: form.college.trim(),
       collegeType: form.collegeType,
-      degree: form.degree.trim() || undefined,
-      branch: form.branch.trim() || undefined,
+      degree: form.degree.trim(),
+      branch: form.branch.trim(),
       graduationYear: form.graduationYear ? Number(form.graduationYear) : undefined,
-      github: form.github.trim() || undefined,
-      linkedin: form.linkedin.trim() || undefined,
-      leetcode: form.leetcode.trim() || undefined,
-      codeforces: form.codeforces.trim() || undefined,
-      about: form.about.trim() || undefined,
+      github: form.github.trim(),
+      linkedin: form.linkedin.trim(),
+      leetcode: form.leetcode.trim(),
+      codeforces: form.codeforces.trim(),
+      about: form.about.trim(),
       skills: form.skills,
     };
 

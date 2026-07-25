@@ -8,10 +8,19 @@ import { Button } from "@/components/ui/button";
 import { isApiError } from "@/api/apiError";
 import { ROUTES } from "@/routes/routePaths";
 import { useLoginMutation } from "../hooks/useLoginMutation";
+import { useRotatingMessage } from "../hooks/useRotatingMessage";
 import { loginSchema, type LoginFormValues } from "../schemas/auth.schemas";
+
+const SIGNING_IN_MESSAGES = [
+  "Signing you in...",
+  "Waking up your dashboard...",
+  "Checking your streak...",
+  "Almost there...",
+];
 
 export function LoginForm() {
   const loginMutation = useLoginMutation();
+  const loadingLabel = useRotatingMessage(SIGNING_IN_MESSAGES, loginMutation.isPending);
   const {
     register,
     handleSubmit,
@@ -53,7 +62,7 @@ export function LoginForm() {
       )}
       <Button type="submit" className="w-full gap-2" disabled={loginMutation.isPending}>
         {loginMutation.isPending && <Spinner size="sm" className="text-primary-foreground" />}
-        {loginMutation.isPending ? "Signing in..." : "Sign in"}
+        {loginMutation.isPending ? loadingLabel : "Sign in"}
       </Button>
     </form>
   );

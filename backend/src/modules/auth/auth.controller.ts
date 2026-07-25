@@ -17,7 +17,7 @@ export class AuthController {
     res.cookie(AUTH_CONSTANTS.REFRESH_TOKEN_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: config.env === 'production',
-      sameSite: 'lax',
+      sameSite: config.env === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
   }
@@ -26,7 +26,7 @@ export class AuthController {
     res.clearCookie(AUTH_CONSTANTS.REFRESH_TOKEN_COOKIE_NAME, {
       httpOnly: true,
       secure: config.env === 'production',
-      sameSite: 'lax',
+      sameSite: config.env === 'production' ? 'none' : 'lax',
     });
   }
 

@@ -6,10 +6,14 @@ import { Spinner } from "@/components/common/Spinner";
 import { Button } from "@/components/ui/button";
 import { isApiError } from "@/api/apiError";
 import { useRegisterMutation } from "../hooks/useRegisterMutation";
+import { useRotatingMessage } from "../hooks/useRotatingMessage";
 import { registerSchema, type RegisterFormValues } from "../schemas/auth.schemas";
+
+const CREATING_ACCOUNT_MESSAGES = ["Creating your account...", "Setting things up...", "Almost ready..."];
 
 export function RegisterForm() {
   const registerMutation = useRegisterMutation();
+  const loadingLabel = useRotatingMessage(CREATING_ACCOUNT_MESSAGES, registerMutation.isPending);
   const {
     register,
     handleSubmit,
@@ -50,7 +54,7 @@ export function RegisterForm() {
       )}
       <Button type="submit" className="w-full gap-2" disabled={registerMutation.isPending}>
         {registerMutation.isPending && <Spinner size="sm" className="text-primary-foreground" />}
-        {registerMutation.isPending ? "Creating account..." : "Create account"}
+        {registerMutation.isPending ? loadingLabel : "Create account"}
       </Button>
     </form>
   );
