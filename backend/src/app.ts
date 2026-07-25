@@ -31,6 +31,10 @@ import adminRoutes from './modules/admin/admin.routes';
 
 const app = express();
 
+// Trust Render's single reverse-proxy hop so req.ip reflects the real client
+// (required for the rate limiter below to key on distinct clients, not the proxy).
+app.set('trust proxy', 1);
+
 // Request Correlation
 app.use(requestId);
 
@@ -38,10 +42,15 @@ app.use(requestId);
 app.use(helmet());
 app.use(cors({ origin: config.cors.origin, credentials: true }));
 
+// Health & System Routes — registered before the rate limiter so platform health-check
+// polling (e.g. Render hitting /health every few seconds) never counts against it.
+app.use('/health', healthRoutes);
+app.use(`${API_PREFIX}/health`, healthRoutes);
+
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 300,
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -54,10 +63,6 @@ app.use(cookieParser());
 
 // Request Logging
 app.use(requestLogger);
-
-// Health & System Routes
-app.use('/health', healthRoutes);
-app.use(`${API_PREFIX}/health`, healthRoutes);
 
 // API Documentation
 app.use(`${API_PREFIX}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customSiteTitle: 'HireSense AI API Docs' }));
