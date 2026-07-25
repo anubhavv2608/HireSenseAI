@@ -1,0 +1,53 @@
+export const ROUTES = {
+  HOME: "/",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
+  DASHBOARD: "/dashboard",
+  RESUME: "/resume",
+  RESUME_ANALYSIS: "/resume-analysis",
+  JOB_ANALYSIS: "/job-analysis",
+  INTERVIEW: "/interview",
+  SETTINGS: "/settings",
+  DAILY_DSA: "/daily-dsa",
+  PROFILE: "/profile",
+  PROFILE_EDIT: "/profile/edit",
+  PUBLIC_PROFILE: "/profile/:userId",
+  PUBLIC_PROFILE_BY_USERNAME: "/u/:username",
+  STUDENT_SEARCH: "/students",
+  NOTIFICATIONS: "/notifications",
+  FRIENDS: "/friends",
+  CHALLENGES: "/challenges",
+  LEADERBOARD: "/leaderboard",
+  UNAUTHORIZED: "/unauthorized",
+  ADMIN_DASHBOARD: "/admin/dashboard",
+  ADMIN_USERS: "/admin/users",
+  ADMIN_RESUMES: "/admin/resumes",
+  ADMIN_DAILY_DSA: "/admin/daily-dsa",
+} as const;
+
+export const ROUTE_TITLES: Record<string, string> = {
+  [ROUTES.DASHBOARD]: "Dashboard",
+  [ROUTES.RESUME]: "Resume",
+  [ROUTES.RESUME_ANALYSIS]: "Resume Analysis",
+  [ROUTES.JOB_ANALYSIS]: "Job Match",
+  [ROUTES.INTERVIEW]: "Interview",
+  [ROUTES.SETTINGS]: "Settings",
+  [ROUTES.DAILY_DSA]: "Daily DSA",
+  [ROUTES.PROFILE]: "My Profile",
+  [ROUTES.PROFILE_EDIT]: "Edit Profile",
+  [ROUTES.STUDENT_SEARCH]: "Students",
+  [ROUTES.NOTIFICATIONS]: "Notifications",
+  [ROUTES.FRIENDS]: "Friends",
+  [ROUTES.CHALLENGES]: "Challenges",
+  [ROUTES.LEADERBOARD]: "Leaderboard",
+  [ROUTES.ADMIN_DASHBOARD]: "Admin Dashboard",
+  [ROUTES.ADMIN_USERS]: "Users",
+  [ROUTES.ADMIN_RESUMES]: "Resumes",
+  [ROUTES.ADMIN_DAILY_DSA]: "Daily DSA",
+};
+
+export function publicProfilePath(userId: string, username?: string | null): string {
+  return username ? `/u/${username}` : `/profile/${userId}`;
+}
