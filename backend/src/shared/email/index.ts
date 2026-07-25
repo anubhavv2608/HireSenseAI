@@ -1,6 +1,7 @@
 export * from './types';
 export * from './constants';
 export * from './interfaces/IEmailProvider';
+export * from './providers/BrevoEmailProvider';
 export * from './providers/ResendEmailProvider';
 export * from './providers/SmtpEmailProvider';
 export * from './services/EmailService';

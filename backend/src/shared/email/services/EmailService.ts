@@ -1,6 +1,7 @@
 import { config } from '../../config';
 import { logger } from '../../config/logger';
 import { IEmailProvider } from '../interfaces/IEmailProvider';
+import { BrevoEmailProvider } from '../providers/BrevoEmailProvider';
 import { ResendEmailProvider } from '../providers/ResendEmailProvider';
 import { SmtpEmailProvider } from '../providers/SmtpEmailProvider';
 import { EmailMessage } from '../types';
@@ -8,6 +9,9 @@ import { EmailMessage } from '../types';
 function createDefaultProvider(): IEmailProvider {
   if (config.email.provider === 'gmail' || config.email.provider === 'smtp') {
     return new SmtpEmailProvider();
+  }
+  if (config.email.provider === 'brevo') {
+    return new BrevoEmailProvider();
   }
   return new ResendEmailProvider();
 }

@@ -25,11 +25,7 @@ services:
       - key: AI_TEMPERATURE
         value: 0.2
       - key: EMAIL_PROVIDER
-        value: gmail
-      - key: SMTP_HOST
-        value: smtp.gmail.com
-      - key: SMTP_PORT
-        value: 587
+        value: brevo
       # Secrets and environment-specific values — set these in the Render dashboard,
       # never in this file.
       - key: MONGO_URI
@@ -52,7 +48,5 @@ services:
         sync: false
       - key: EMAIL_FROM
         sync: false
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASS
+      - key: BREVO_API_KEY
         sync: false

@@ -27,8 +27,9 @@ const envSchema = z
     AI_MAX_RETRIES: z.coerce.number().default(2),
     AI_TEMPERATURE: z.coerce.number().min(0).max(2).default(0.2),
     RESEND_API_KEY: z.string().optional(),
+    BREVO_API_KEY: z.string().optional(),
     EMAIL_FROM: z.string().default('HireSenseAI <onboarding@resend.dev>'),
-    EMAIL_PROVIDER: z.enum(['resend', 'gmail', 'smtp']).default('resend'),
+    EMAIL_PROVIDER: z.enum(['resend', 'brevo', 'gmail', 'smtp']).default('resend'),
     SMTP_HOST: z.string().optional(),
     SMTP_PORT: z.coerce.number().optional(),
     SMTP_USER: z.string().optional(),
@@ -88,6 +89,7 @@ export const config = {
   email: {
     provider: env.EMAIL_PROVIDER,
     apiKey: env.RESEND_API_KEY,
+    brevoApiKey: env.BREVO_API_KEY,
     from: env.EMAIL_FROM,
     smtp: {
       host: env.SMTP_HOST,
